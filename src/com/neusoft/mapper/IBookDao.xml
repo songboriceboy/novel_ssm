@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.mapper.IBookDao">
+
+	<select id="getAllBooks" resultType="BookInfo">
+	    select * from bookinfo
+	</select>
+
+	<select id="getBookInfoByID" parameterType="int" resultType="BookInfo">
+		select * from bookinfo where id = #{value}
+	</select>
+	
+	<insert id="addBook" parameterType="BookInfo">
+	insert into bookinfo (book_name,book_intro,book_author,book_url,category_id) 
+	values(#{book_name},#{book_intro},#{book_author},#{book_url},#{category_id})
+	</insert>
+	
+	<update id="saveBook" parameterType="BookInfo">
+	update bookinfo set book_name = #{book_name}
+	, book_intro=#{book_intro},book_author=#{book_author}
+	, book_url = #{book_url}, category_id = #{category_id} where id=#{id}
+	</update>
+	
+	
+	
+<!-- 	<select id="getBooksCounts" resultType="int">
+		select count(*) as num from bookinfo
+	</select> -->
+	
+	<select id="getBooksCounts" resultType="int" parameterType="BookPageInfo">
+		select count(*) as num from bookinfo 
+		<where>
+			<if test="category_id!=0">
+				and category_id=#{category_id}
+			</if>
+			<if test="bookname!=null and bookname != ''">
+				and book_name like '%${bookname}%'
+			</if>
+		</where>
+	
+	</select>
+	
+	
+	
+<!-- 	<select id="getPagedBooks" parameterType="PageInfo" resultType="BookInfo">
+		select * from bookinfo limit #{pageStart},#{pageSize}
+	</select> -->
+	
+	<select id="getPagedBooksByID" parameterType="BookPageInfo" resultType="BookInfo">
+		select * from bookinfo 
+		
+
+		<where>
+			<if test="category_id!=0">
+				category_id=#{category_id}
+			</if>
+			<if test="bookname!=null and bookname != ''">
+				and book_name like '%${bookname}%'
+			</if>
+		</where>
+		
+		limit #{pageStart},#{pageSize}
+	</select>
+	
+	
+	
+</mapper>

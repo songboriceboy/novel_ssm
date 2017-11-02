@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.mapper.IChapterDao">
+
+	<select id = "getAllChaptersByBookID" parameterType="int" resultType="Chapter">
+		select * from chapter where book_id = #{value}
+	</select>
+	
+	<select id="GetChapterInfo" parameterType="int" resultType="ChapterEx">
+		select chapter.*,bookinfo.book_name from chapter 
+		join bookinfo on bookinfo.id = chapter.book_id
+		where chapter.id =  #{value}
+	</select>
+
+	
+	<select id="getPrevChapterIDByCurrentChapterID" parameterType="int" resultType="int">
+		select COALESCE(max(id),0) as previd 
+		from (select * from chapter 
+		where book_id = (select book_id from chapter where id = #{value})) 
+		as tabTemp where #{value} > id
+	</select>
+	
+	<select id="getNextChapterIDByCurrentChapterID" parameterType="int" resultType="int">
+			select COALESCE(min(id),0) as previd 
+		from (select * from chapter 
+		where book_id = (select book_id from chapter where id = #{value})) 
+		as tabTemp where id > #{value}
+	</select>
+	
+	<insert id="addChapter" parameterType="Chapter">
+		insert into chapter (title,content,book_id) 
+		values(#{title},#{content},#{book_id})
+	</insert>
+	
+	<update id="saveChapter" parameterType="Chapter">
+		update chapter set title = #{title},content = #{content} where id = #{id}
+	</update>
+</mapper>

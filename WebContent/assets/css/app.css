@@ -1,0 +1,39 @@
+  .app-navbar{
+            background-color:#00a8e6;
+
+        }
+        .app-navbar li a{
+            color:white;
+            text-shadow: none;
+        }
+        .app-navbar li a i{
+            margin-right: 5px;
+        }
+
+        .app-navbar li a:hover
+        {
+            background-color: #00aff2;
+            color: white;
+            cursor: pointer;
+        }
+
+        .uk-navbar-brand
+        {
+            color: white;
+            text-shadow: none;
+        }
+        .app-side
+        {
+            padding: 15px 30px;
+            background-color: #fafafa;
+        }
+
+        .app-main{
+            padding: 15px;
+        }
+        
+        .uk-nav-header
+        {
+        	font-size:18px;
+        
+        }
